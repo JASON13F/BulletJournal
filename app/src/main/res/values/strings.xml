@@ -1,0 +1,11 @@
+<resources>
+
+    <string name="app_name">BulletJournal</string>
+
+    <string name="main_menu_clear">Clear</string>
+
+    <string name="main_dialog_title">New Word</string>
+
+    <string name="main_dialog_word_hint">Input Word</string>
+
+</resources>

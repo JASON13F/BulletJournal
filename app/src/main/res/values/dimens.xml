@@ -1,0 +1,12 @@
+<resources>
+
+    <dimen name="very_small_padding">4dp</dimen>
+    <dimen name="small_padding">8dp</dimen>
+    <dimen name="normal_padding">16dp</dimen>
+
+    <dimen name="list_padding">@dimen/normal_padding</dimen>
+    <dimen name="list_minHeight">56dp</dimen>
+
+    <dimen name="fab_margin">16dp</dimen>
+
+</resources>
