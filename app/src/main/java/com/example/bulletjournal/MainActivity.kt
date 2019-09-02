@@ -7,6 +7,7 @@ import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
+import com.example.bulletjournal.database.WordRoomDatabase
 import com.example.bulletjournal.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -16,16 +17,15 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val binding = DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        val binding =
+            DataBindingUtil.setContentView<ActivityMainBinding>(this, R.layout.activity_main)
+        binding.lifecycleOwner = this
+        binding.viewModel = viewModel
 
-        setSupportActionBar(binding.toolbar)
+        viewModel.init(WordRoomDatabase.getDatabase(this).wordDao())
 
         val adapter = WordListAdapter()
         binding.recyclerView.adapter = adapter
-
-        binding.fab.setOnClickListener {
-            WordInputDialogFragment.newInstance().show(supportFragmentManager, null)
-        }
 
         viewModel.allWords.observe(this, adapter::submitList)
     }

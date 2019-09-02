@@ -4,8 +4,8 @@
 
     <string name="main_menu_clear">Clear</string>
 
-    <string name="main_dialog_title">New Word</string>
+    <string name="hint_word">Word</string>
 
-    <string name="main_dialog_word_hint">Input Word</string>
+    <string name="add_button">Add</string>
 
 </resources>

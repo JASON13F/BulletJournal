@@ -3,11 +3,11 @@ apply plugin: 'kotlin-android'
 apply plugin: 'kotlin-kapt'
 
 android {
-    compileSdkVersion 28
+    compileSdkVersion 29
     defaultConfig {
         applicationId "com.example.bulletjournal"
         minSdkVersion 21
-        targetSdkVersion 28
+        targetSdkVersion 29
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -18,17 +18,15 @@ android {
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
         }
     }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    kotlinOptions {
+        jvmTarget = "1.8"
+    }
     dataBinding {
         enabled = true
-    }
-    packagingOptions {
-        pickFirst("META-INF/atomicfu.kotlin_module")
-    }
-}
-
-kotlin {
-    experimental {
-        coroutines "enable"
     }
 }
 
@@ -47,18 +45,17 @@ dependencies {
     kapt "androidx.room:room-compiler:$roomVersion"
 
     // Lifecycle components
-    def lifecycleVersion = '2.2.0-alpha01'
+    def lifecycleVersion = '2.2.0-alpha03'
     implementation "androidx.lifecycle:lifecycle-extensions:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$lifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-livedata-ktx:$lifecycleVersion"
-    kapt "androidx.lifecycle:lifecycle-compiler:$lifecycleVersion"
 
     // Fragment Kotlin support
-    def fragmentVersion = '1.1.0-beta01'
+    def fragmentVersion = '1.2.0-alpha02'
     implementation "androidx.fragment:fragment-ktx:$fragmentVersion"
 
     // Coroutines
-    def coroutines = '1.2.0'
+    def coroutines = '1.2.2'
     api "org.jetbrains.kotlinx:kotlinx-coroutines-core:$coroutines"
     api "org.jetbrains.kotlinx:kotlinx-coroutines-android:$coroutines"
 
