@@ -34,10 +34,12 @@ class MainViewModel : ViewModel() {
         wordText.postValue("")
     }
 
-    fun update(id: Long, state: Boolean) {
-        viewModelScope.launch {
-            repository.update(id, state)
-        }
+    fun update(id: Long, state: Boolean) = viewModelScope.launch {
+        repository.update(id, state)
+    }
+
+    fun delete(word: Word) = viewModelScope.launch {
+        repository.delete(word)
     }
 
     fun deleteAll() = viewModelScope.launch {

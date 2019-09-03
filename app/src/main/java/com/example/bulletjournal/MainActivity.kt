@@ -1,12 +1,12 @@
 package com.example.bulletjournal
 
 import android.os.Bundle
-import android.view.Menu
-import android.view.MenuItem
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.observe
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.RecyclerView
 import com.example.bulletjournal.database.WordRoomDatabase
 import com.example.bulletjournal.databinding.ActivityMainBinding
 
@@ -24,24 +24,27 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.init(WordRoomDatabase.getDatabase(this).wordDao())
 
-        val adapter = WordListAdapter { id, state -> viewModel.update(id, state) }
+        val adapter = WordListAdapter(
+            onClick = { id, state -> viewModel.update(id, state) },
+            onDelete = { viewModel.delete(it) }
+        )
         binding.recyclerView.adapter = adapter
 
-        viewModel.allWords.observe(this, adapter::submitList)
-    }
+        val itemTouchHelper = ItemTouchHelper(
+            object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT) {
+                override fun onMove(
+                    recyclerView: RecyclerView,
+                    viewHolder: RecyclerView.ViewHolder,
+                    target: RecyclerView.ViewHolder
+                ) = false
 
-    override fun onCreateOptionsMenu(menu: Menu): Boolean {
-        menuInflater.inflate(R.menu.menu_main, menu)
-        return true
-    }
-
-    override fun onOptionsItemSelected(item: MenuItem): Boolean {
-        return when (item.itemId) {
-            R.id.action_clear -> {
-                viewModel.deleteAll()
-                true
+                override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+                    adapter.delete(viewHolder.adapterPosition)
+                }
             }
-            else -> super.onOptionsItemSelected(item)
-        }
+        )
+        itemTouchHelper.attachToRecyclerView(binding.recyclerView)
+
+        viewModel.allWords.observe(this, adapter::submitList)
     }
 }

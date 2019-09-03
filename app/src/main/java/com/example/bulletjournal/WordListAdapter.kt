@@ -15,7 +15,8 @@ import com.example.bulletjournal.enums.Word
 import com.example.bulletjournal.enums.drawable
 
 class WordListAdapter(
-    val f: (id: Long, state: Boolean) -> Unit
+    val onClick: (id: Long, state: Boolean) -> Unit,
+    val onDelete: (word: Word) -> Unit
 ) : ListAdapter<Word, TypedViewHolder<RecyclerviewItemBinding>>(
     object : DiffUtil.ItemCallback<Word>() {
         override fun areItemsTheSame(oldItem: Word, newItem: Word): Boolean =
@@ -40,10 +41,14 @@ class WordListAdapter(
             val bullet = Bullet.getBullet(word.bulletId)
             it.word = word
             it.drawable = ContextCompat.getDrawable(it.root.context, bullet!!.drawable(word.state))
-            it.root.setOnClickListener { f(word.id, word.state.not()) }
+            it.root.setOnClickListener { onClick(word.id, word.state.not()) }
 
             it.executePendingBindings()
         }
+    }
+
+    fun delete(position: Int) {
+        onDelete(getItem(position))
     }
 }
 

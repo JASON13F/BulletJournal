@@ -2,6 +2,7 @@ package com.example.bulletjournal.database.dao
 
 import androidx.lifecycle.LiveData
 import androidx.room.Dao
+import androidx.room.Delete
 import androidx.room.Insert
 import androidx.room.Query
 import com.example.bulletjournal.enums.Word
@@ -18,6 +19,9 @@ interface WordDao {
 
     @Query("UPDATE work_table SET state = :state WHERE id = :id")
     suspend fun update(id: Long, state: Boolean)
+
+    @Delete
+    suspend fun delete(word: Word)
 
     @Query("DELETE FROM work_table")
     suspend fun deleteAll()
