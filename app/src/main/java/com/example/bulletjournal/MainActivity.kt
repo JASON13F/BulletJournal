@@ -24,7 +24,7 @@ class MainActivity : AppCompatActivity() {
 
         viewModel.init(WordRoomDatabase.getDatabase(this).wordDao())
 
-        val adapter = WordListAdapter()
+        val adapter = WordListAdapter { id, state -> viewModel.update(id, state) }
         binding.recyclerView.adapter = adapter
 
         viewModel.allWords.observe(this, adapter::submitList)

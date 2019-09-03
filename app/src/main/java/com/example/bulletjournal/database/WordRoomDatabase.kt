@@ -7,7 +7,7 @@ import androidx.room.RoomDatabase
 import com.example.bulletjournal.database.dao.WordDao
 import com.example.bulletjournal.enums.Word
 
-@Database(entities = [Word::class], version = 1)
+@Database(entities = [Word::class], version = 2)
 abstract class WordRoomDatabase : RoomDatabase() {
 
     abstract fun wordDao(): WordDao
@@ -17,7 +17,7 @@ abstract class WordRoomDatabase : RoomDatabase() {
             synchronized(this) {
                 Room.databaseBuilder(
                     context.applicationContext, WordRoomDatabase::class.java, "Word_database"
-                ).build()
+                ).fallbackToDestructiveMigration().build()
             }
     }
 }

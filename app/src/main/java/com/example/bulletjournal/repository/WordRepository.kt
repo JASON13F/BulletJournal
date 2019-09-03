@@ -10,12 +10,11 @@ class WordRepository(private val wordDao: WordDao) {
     val allWords: LiveData<List<Word>> = wordDao.getAllWords()
 
     @WorkerThread
-    suspend fun insert(word: Word) {
-        wordDao.insert(word)
-    }
+    suspend fun insert(word: Word) = wordDao.insert(word)
 
     @WorkerThread
-    suspend fun deleteAll() {
-        wordDao.deleteAll()
-    }
+    suspend fun update(id: Long, state: Boolean) = wordDao.update(id, state)
+
+    @WorkerThread
+    suspend fun deleteAll() = wordDao.deleteAll()
 }

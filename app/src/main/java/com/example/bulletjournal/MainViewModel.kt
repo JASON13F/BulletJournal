@@ -2,13 +2,14 @@ package com.example.bulletjournal
 
 import androidx.lifecycle.*
 import com.example.bulletjournal.database.dao.WordDao
+import com.example.bulletjournal.enums.Bullet
 import com.example.bulletjournal.enums.Word
 import com.example.bulletjournal.repository.WordRepository
-import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
 class MainViewModel : ViewModel() {
 
+    val checkedId = MutableLiveData<Int>().apply { value = R.id.radio_task }
     val wordText = MutableLiveData<String>()
     val isAddButtonEnable = wordText.map { !it.isNullOrEmpty() }
 
@@ -20,12 +21,26 @@ class MainViewModel : ViewModel() {
         allWords = repository.allWords
     }
 
-    fun insert() = viewModelScope.launch(Dispatchers.IO) {
-        repository.insert(Word(word = wordText.value!!))
+    fun insert() = viewModelScope.launch {
+        val text = wordText.value ?: return@launch
+        val bullet = when (checkedId.value) {
+            R.id.radio_task -> Bullet.TASK
+            R.id.radio_memo -> Bullet.MEMO
+            R.id.radio_event -> Bullet.EVENT
+            else -> Bullet.TASK
+        }
+
+        repository.insert(Word(text = text, bulletId = bullet.id))
         wordText.postValue("")
     }
 
-    fun deleteAll() = viewModelScope.launch(Dispatchers.IO) {
+    fun update(id: Long, state: Boolean) {
+        viewModelScope.launch {
+            repository.update(id, state)
+        }
+    }
+
+    fun deleteAll() = viewModelScope.launch {
         repository.deleteAll()
     }
 }

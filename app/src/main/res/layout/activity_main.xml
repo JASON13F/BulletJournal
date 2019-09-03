@@ -4,6 +4,8 @@
 
     <data>
 
+        <import type="com.example.bulletjournal.enums.Bullet" />
+
         <variable
             name="viewModel"
             type="com.example.bulletjournal.MainViewModel" />
@@ -21,6 +23,36 @@
             android:layout_height="0dp"
             android:layout_weight="1"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+
+        <RadioGroup
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:checkedButton="@={viewModel.checkedId}"
+            android:orientation="horizontal">
+
+            <RadioButton
+                android:id="@+id/radio_task"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{Bullet.TASK.text}" />
+
+            <RadioButton
+                android:id="@+id/radio_memo"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{Bullet.MEMO.text}" />
+
+            <RadioButton
+                android:id="@+id/radio_event"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:text="@{Bullet.EVENT.text}" />
+
+        </RadioGroup>
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -49,7 +81,7 @@
                 android:id="@+id/add_button"
                 style="@style/Widget.MaterialComponents.Button"
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_height="match_parent"
                 android:layout_marginStart="8dp"
                 android:enabled="@{viewModel.isAddButtonEnable}"
                 android:onClick="@{() -> viewModel.insert()}"
