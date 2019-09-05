@@ -10,8 +10,8 @@ import androidx.recyclerview.widget.DiffUtil
 import androidx.recyclerview.widget.ListAdapter
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bulletjournal.databinding.RecyclerviewItemBinding
-import com.example.bulletjournal.enums.Bullet
 import com.example.bulletjournal.enums.Word
+import com.example.bulletjournal.enums.getDrawable
 import org.threeten.bp.format.DateTimeFormatter
 import org.threeten.bp.format.FormatStyle
 
@@ -20,10 +20,8 @@ class WordListAdapter(
     val onDelete: (word: Word) -> Unit
 ) : ListAdapter<Word, TypedViewHolder<RecyclerviewItemBinding>>(
     object : DiffUtil.ItemCallback<Word>() {
-        override fun areItemsTheSame(oldItem: Word, newItem: Word): Boolean =
-            oldItem.id == newItem.id
-
-        override fun areContentsTheSame(oldItem: Word, newItem: Word): Boolean = oldItem == newItem
+        override fun areItemsTheSame(oldItem: Word, newItem: Word) = oldItem.id == newItem.id
+        override fun areContentsTheSame(oldItem: Word, newItem: Word) = oldItem == newItem
     }
 ) {
 
@@ -39,10 +37,9 @@ class WordListAdapter(
     override fun onBindViewHolder(holder: TypedViewHolder<RecyclerviewItemBinding>, position: Int) {
         holder.binding?.let {
             val word = getItem(position)
-            val bullet = Bullet.getBullet(word.bulletId)
             it.word = word
             it.drawable =
-                ContextCompat.getDrawable(it.root.context, bullet!!.getDrawable(word.state))
+                ContextCompat.getDrawable(it.root.context, word.bullet.getDrawable(word.state))
             it.dateText =
                 word.offsetDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
             it.root.setOnClickListener { onClick(word.id, word.state.not()) }

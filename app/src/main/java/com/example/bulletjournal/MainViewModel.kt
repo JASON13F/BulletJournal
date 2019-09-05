@@ -30,7 +30,7 @@ class MainViewModel : ViewModel() {
             else -> Bullet.TASK
         }
 
-        repository.insert(Word(text = text, bulletId = bullet.id))
+        repository.insert(Word(text = text, bullet = bullet))
         wordText.value = ""
     }
 
