@@ -4,10 +4,13 @@ import android.content.Context
 import androidx.room.Database
 import androidx.room.Room
 import androidx.room.RoomDatabase
+import androidx.room.TypeConverters
 import com.example.bulletjournal.database.dao.WordDao
+import com.example.bulletjournal.enums.OffsetDateTimeConverter
 import com.example.bulletjournal.enums.Word
 
-@Database(entities = [Word::class], version = 2)
+@Database(entities = [Word::class], version = 1)
+@TypeConverters(OffsetDateTimeConverter::class)
 abstract class WordRoomDatabase : RoomDatabase() {
 
     abstract fun wordDao(): WordDao

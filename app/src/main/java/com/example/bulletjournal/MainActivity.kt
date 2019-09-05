@@ -9,6 +9,7 @@ import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.RecyclerView
 import com.example.bulletjournal.database.WordRoomDatabase
 import com.example.bulletjournal.databinding.ActivityMainBinding
+import com.jakewharton.threetenabp.AndroidThreeTen
 
 class MainActivity : AppCompatActivity() {
 
@@ -23,6 +24,8 @@ class MainActivity : AppCompatActivity() {
         binding.viewModel = viewModel
 
         viewModel.init(WordRoomDatabase.getDatabase(this).wordDao())
+
+        AndroidThreeTen.init(this)
 
         val adapter = WordListAdapter(
             onClick = { id, state -> viewModel.update(id, state) },

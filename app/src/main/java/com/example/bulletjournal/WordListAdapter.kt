@@ -12,7 +12,8 @@ import androidx.recyclerview.widget.RecyclerView
 import com.example.bulletjournal.databinding.RecyclerviewItemBinding
 import com.example.bulletjournal.enums.Bullet
 import com.example.bulletjournal.enums.Word
-import com.example.bulletjournal.enums.drawable
+import org.threeten.bp.format.DateTimeFormatter
+import org.threeten.bp.format.FormatStyle
 
 class WordListAdapter(
     val onClick: (id: Long, state: Boolean) -> Unit,
@@ -40,7 +41,10 @@ class WordListAdapter(
             val word = getItem(position)
             val bullet = Bullet.getBullet(word.bulletId)
             it.word = word
-            it.drawable = ContextCompat.getDrawable(it.root.context, bullet!!.drawable(word.state))
+            it.drawable =
+                ContextCompat.getDrawable(it.root.context, bullet!!.getDrawable(word.state))
+            it.dateText =
+                word.offsetDateTime.format(DateTimeFormatter.ofLocalizedDate(FormatStyle.MEDIUM))
             it.root.setOnClickListener { onClick(word.id, word.state.not()) }
 
             it.executePendingBindings()

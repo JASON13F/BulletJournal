@@ -31,7 +31,7 @@ class MainViewModel : ViewModel() {
         }
 
         repository.insert(Word(text = text, bulletId = bullet.id))
-        wordText.postValue("")
+        wordText.value = ""
     }
 
     fun update(id: Long, state: Boolean) = viewModelScope.launch {
